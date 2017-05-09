@@ -1,0 +1,26 @@
+#!/bin/bash --login
+set -e
+cd $(dirname $0)/../..
+
+. _CI/scripts/bootstrap
+
+rm -rf build dist
+
+# we want all these files to exist in the actual package
+cp .VERSION toonlib/.VERSION
+cp LICENSE toonlib/LICENSE
+cp AUTHORS.rst toonlib/AUTHORS.rst
+cp CONTRIBUTING.rst toonlib/CONTRIBUTING.rst
+cp HISTORY.rst toonlib/HISTORY.rst
+cp README.rst toonlib/README.rst
+cp USAGE.rst toonlib/USAGE.rst
+
+python setup.py sdist bdist_egg
+
+rm toonlib/.VERSION
+rm toonlib/LICENSE
+rm toonlib/AUTHORS.rst
+rm toonlib/CONTRIBUTING.rst
+rm toonlib/HISTORY.rst
+rm toonlib/README.rst
+rm toonlib/USAGE.rst

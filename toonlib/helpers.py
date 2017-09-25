@@ -265,15 +265,15 @@ class SmartPlug(Switch):
 
     @property
     def average_usage(self):
-        return self._get_value('avgUsage')
+        return self._get_value('avgUsage') if self.usage_capable else 0
 
     @property
     def current_usage(self):
-        return self._get_value('currentUsage')
+        return self._get_value('currentUsage') if self.usage_capable else 0
 
     @property
     def daily_usage(self):
-        return self._get_value('dayUsage')
+        return self._get_value('dayUsage') if self.usage_capable else 0
 
     @property
     def network_health_state(self):

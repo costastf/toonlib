@@ -262,6 +262,7 @@ class SmartPlug(Switch):
 
     def __init__(self, toon_instance, name):
         super(SmartPlug, self).__init__(toon_instance, name)
+        self._usage_capable = None
 
     @property
     def average_usage(self):
@@ -281,8 +282,10 @@ class SmartPlug(Switch):
 
     @property
     def usage_capable(self):
-        value = self._get_value('usageCapable', config=True)
-        return True if value else False
+        if self._usage_capable is None:
+            value = self._get_value('usageCapable', config=True)
+            self._usage_capable = True if value else False
+        return self._usage_capable
 
     @property
     def quantity_graph_uuid(self):

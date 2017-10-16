@@ -350,6 +350,10 @@ class Toon(object):
         return next((state for state in self.thermostat_states
                      if state.id == id_), None)
 
+    @property
+    def burner_on(self):
+        return True if int(self.thermostat_info.burner_info) else False
+
     @staticmethod
     def _validate_thermostat_state_name(name):
         if name.lower() not in [value.lower() for value in STATES.values()

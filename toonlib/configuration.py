@@ -6,6 +6,7 @@
 
 STATE_CACHING_SECONDS = 30
 DAY_CACHING_SECONDS = 60 * 60 * 24
+REQUEST_TIMEOUT = 9
 
 STATES = {0: 'Comfort',
           1: 'Home',

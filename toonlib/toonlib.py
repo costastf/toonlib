@@ -188,17 +188,15 @@ class Toon(object):
     def _get_data(self, endpoint, params=None):
         url = '{base}{endpoint}'.format(base=self.base_url,
                                         endpoint=endpoint)
-        params = params or self._parameters
-        timeout = REQUEST_TIMEOUT
         try:
-            response = self._session.get(url, params=params, timeout=timeout)
+            response = self._session.get(url,
+                                         params=params or self._parameters,
+                                         timeout=REQUEST_TIMEOUT)
         except Timeout:
             self._logger.warning('Detected a timeout. '
                                  'Re-authenticating and retrying request.')
             self._login()
-            response = self._session.get(url, params=params, timeout=timeout)
-            # if we have consecutive timeouts even after re authenticating we
-            # want things to crash
+            return self._get_data(endpoint, params)
         if response.status_code == 500:
             error_message = response.json().get('reason', '')
             if any([message in error_message

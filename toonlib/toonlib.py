@@ -123,12 +123,13 @@ class Toon(object):
         self._authenticate()
         self._get_session()
 
-    def _logout(self):
+    def _logout(self, reset=True):
         """Log out of the API."""
         url = '{base}/client/auth/logout'.format(base=self.base_url)
         response = self._session.get(url, params=self._parameters)
         if response.ok:
-            self._reset()
+            if reset:
+                self._reset()
             return True
         else:
             return False
@@ -195,6 +196,7 @@ class Toon(object):
         except Timeout:
             self._logger.warning('Detected a timeout. '
                                  'Re-authenticating and retrying request.')
+            self._logout(reset=False)
             self._login()
             return self._get_data(endpoint, params)
         if response.status_code == 500:

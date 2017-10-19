@@ -8,12 +8,14 @@ import logging
 import uuid
 
 from requests import Session
+from requests.exceptions import Timeout
 from cachetools import cached, TTLCache
 
 from .configuration import (STATES,
                             STATE_CACHING_SECONDS,
                             DEFAULT_STATE,
-                            AUTHENTICATION_ERROR_STRINGS)
+                            AUTHENTICATION_ERROR_STRINGS,
+                            REQUEST_TIMEOUT)
 from .helpers import (ThermostatState,
                       Client,
                       PersonalDetails,
@@ -186,13 +188,21 @@ class Toon(object):
     def _get_data(self, endpoint, params=None):
         url = '{base}{endpoint}'.format(base=self.base_url,
                                         endpoint=endpoint)
-        response = self._session.get(url, params=params or self._parameters)
+        try:
+            response = self._session.get(url,
+                                         params=params or self._parameters,
+                                         timeout=REQUEST_TIMEOUT)
+        except Timeout:
+            self._logger.warning('Detected a timeout. '
+                                 'Re-authenticating and retrying request.')
+            self._login()
+            return self._get_data(endpoint, params)
         if response.status_code == 500:
             error_message = response.json().get('reason', '')
             if any([message in error_message
                     for message in AUTHENTICATION_ERROR_STRINGS]):
-                self._logger.info('Detected an issue with authentication. '
-                                  'Trying to reauthenticate.')
+                self._logger.warning('Detected an issue with authentication. '
+                                     'Trying to reauthenticate.')
                 self._login()
                 return self._get_data(endpoint, params)
         elif not response.ok:

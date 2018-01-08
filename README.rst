@@ -1,12 +1,11 @@
+DEPRECATION NOTE
+================
+
+This library is using the unofficial api and is not recommended. There is a new version of the library that works with the official api and can be found at https://github.com/costastf/toonapilib
+
 =======
 toonlib
 =======
-
-NOTE
-====
-
-This library is using the unofficial api and is not recommended. There is a new version of the library that works with the official api and can be found here[https://github.com/costastf/toonapilib]
-
 
 A library to interact with Eneco's toon.
 

@@ -2,9 +2,15 @@
 toonlib
 =======
 
+NOTE
+====
+
+This library is using the unofficial api and is not recommended. There is a new version of the library that works with the official api and can be found here[https://github.com/costastf/toonapilib]
+
+
 A library to interact with Eneco's toon.
 
-Main information is cached for 5 minutes before reaching out to the api for
+Main information is cached for 30 seconds before reaching out to the api for
 freshness. Assigning values to either the thermostat or the thermostat state effectively changing the temperature clears the cache so the next call will get fresh info about the
 settings.
 

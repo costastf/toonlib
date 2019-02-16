@@ -78,6 +78,7 @@ class Toon(object):
                 'password': self.password}
         url = '{base}/client/login'.format(base=self.base_url)
         response = self._session.get(url, params=data)
+        print(response.text)
         data = response.json()
         if not data.get('success'):
             raise InvalidCredentials(data.get('reason', None))

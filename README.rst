@@ -1,7 +1,8 @@
 DEPRECATION NOTE
 ================
 
-This library is using the unofficial api and is not recommended. There is a new version of the library that works with the official api and can be found at https://github.com/costastf/toonapilib
+This library was using the unofficial api which has been terminated since 09-01-2019 so it will no longer work. There is a new version of the library that works with the official api and can be found at https://github.com/costastf/toonapilib
+
 
 =======
 toonlib
